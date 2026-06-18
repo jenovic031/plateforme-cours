@@ -1,0 +1,29 @@
+<?php
+/* 
+ * Configuration Apache/PHP pour la plateforme
+ * Placez ce fichier à la racine du projet
+ */
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Interdire l'accès au dossier uploads via web
+    RewriteRule ^uploads - [F]
+</IfModule>
+
+# Empêcher l'accès direct aux fichiers sensibles
+<FilesMatch "\.(php|sql|config)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Autoriser les fichiers CSS, JS, images
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|svg|ico)$">
+    Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
+
+# Décompression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
